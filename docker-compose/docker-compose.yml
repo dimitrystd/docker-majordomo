@@ -1,0 +1,28 @@
+version: '2'
+services:
+  web:
+    extends:
+      file: common-services.yml
+      service: common
+    ports:
+      - "80:80"
+
+  cycles:
+    extends:
+      file: common-services.yml
+      service: common
+    command: php cycle.php
+
+  # Backup DB to Amazon S3 every day
+  mysql_backup:
+    image: schickling/mysql-backup-s3
+    environment:
+      S3_ACCESS_KEY_ID: xxx
+      S3_SECRET_ACCESS_KEY: xxx
+      S3_BUCKET: xxx
+      S3_PREFIX: xxx
+      MYSQL_HOST: 192.168.0.4
+      MYSQL_USER: majordomo_sql
+      MYSQL_PASSWORD: xxx
+      MYSQLDUMP_DATABASE: db_terminal
+      SCHEDULE: '@daily'

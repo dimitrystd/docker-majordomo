@@ -31,11 +31,3 @@ You can map folders from container by adding to command line
 ```
 -v /var/majordomo/debmes:/var/www/debmes -v /var/majordomo/backup:/var/www/backup
 ```
-
-## Run by docker-compose
-```
-docker-compose -f /etc/majordomo/docker-compose.yml stop
-docker-compose -f /etc/majordomo/docker-compose.yml rm -f
-docker-compose -f /etc/majordomo/docker-compose.yml pull
-docker-compose -f /etc/majordomo/docker-compose.yml up -d
-```

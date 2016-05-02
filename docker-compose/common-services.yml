@@ -1,0 +1,15 @@
+version: '2'
+services:
+  common:
+    image: dmitriy/majordomo
+    volumes:
+      - /var/majordomo/debmes:/var/www/debmes
+      - /var/majordomo/backup:/var/www/backup
+    environment:
+      VIRTUAL_HOST: http://192.168.0.4
+      DB_HOST: 192.168.0.4
+      DB_NAME: db_terminal
+      DB_USER: majordomo_sql
+      DB_PASSWORD: xxx
+      MAIL_USER: xxx@gmail.com
+      EMAIL_PASSWORD: xxx
