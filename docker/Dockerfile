@@ -61,11 +61,14 @@ RUN ln -s /etc/php5/cli/conf.d/opcache-recommended.ini /etc/php5/apache2/conf.d/
   && ln -s /etc/php5/cli/conf.d/logging.ini /etc/php5/apache2/conf.d/logging.ini \
   && ln -s /etc/php5/cli/conf.d/majordomo.ini /etc/php5/apache2/conf.d/majordomo.ini
 
+ARG MAJORDOMO_SOURCE=https://github.com/dimitrystd/majordomo.git
+
 # Install Majordomo from github
 RUN apt-get update && apt-get install -y git \
   # Clone git repo
   && cd /tmp \
-  && git clone https://github.com/dimitrystd/majordomo.git \
+  && echo "Install majordomo from git. URL=$MAJORDOMO_SOURCE" \
+  && git clone $MAJORDOMO_SOURCE \
   && cp -rfp /tmp/majordomo/* /var/www/ \
   && cp -rfp /tmp/majordomo/.htaccess /var/www/ \
   && rm -rf /tmp/majordomo \
