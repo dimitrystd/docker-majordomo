@@ -15,11 +15,11 @@
 ## Build image
 Below command uses the customized version of majordomo from https://github.com/dimitrystd/majordomo.git
 ```
-docker build --rm --tag=dmitriy/majordomo:latest -f ./docker/Dockerfile ./docker
+docker build --rm --no-cache --tag=dmitriy/majordomo:latest -f ./docker/Dockerfile ./docker
 ```
 If you want to build image with the original majordomo version, then use
 ```
-docker build --rm --tag=dmitriy/majordomo:original --build-arg MAJORDOMO_SOURCE=https://github.com/sergejey/majordomo.git -f ./docker/Dockerfile ./docker
+docker build --rm --no-cache --tag=dmitriy/majordomo:original --build-arg MAJORDOMO_SOURCE=https://github.com/sergejey/majordomo.git -f ./docker/Dockerfile ./docker
 ```
 
 ## Run as container
