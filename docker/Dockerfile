@@ -79,7 +79,8 @@ RUN apt-get update && apt-get install -y git \
 
 COPY ./files/config.php /var/www/config.php
 # Create required folders for running scripts
-RUN mkdir /var/www/cached
+RUN mkdir -p /var/www/cached/voice \
+  && mkdir -p /var/www/cached/urls
 RUN chown www-data:www-data -R /var/www \
   && chmod +x /var/www/*.sh
 
