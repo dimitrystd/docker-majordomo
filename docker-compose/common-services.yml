@@ -3,7 +3,7 @@ services:
   common:
     image: dmitriy/majordomo
     volumes:
-      - /var/majordomo/debmes:/var/www/debmes
+      - /var/log/majordomo/debmes:/var/www/debmes
       - /var/majordomo/backup:/var/www/backup
     environment:
       VIRTUAL_HOST: http://192.168.0.4

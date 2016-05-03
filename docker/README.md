@@ -34,5 +34,5 @@ docker run -it --rm -e DB_HOST=<mysql_server_ip> -e DB_NAME=<db_name> -e DB_USER
 
 You can map folders from container by adding to command line
 ```
--v /var/majordomo/debmes:/var/www/debmes -v /var/majordomo/backup:/var/www/backup
+-v var/log/majordomo/debmes:/var/www/debmes -v /var/majordomo/backup:/var/www/backup
 ```
