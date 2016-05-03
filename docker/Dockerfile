@@ -3,10 +3,13 @@ FROM debian:jessie
 MAINTAINER Dmytro Studynskyi "dimitrystd@gmail.com"
 
 # Install the PHP extensions we need
-RUN apt-get update && apt-get install -y apache2 apache2-utils \
+RUN apt-get update && apt-get install -y \
   curl libcurl3 \
   php5 php5-cli php5-curl php-pear php5-xcache php5-mysql \
-  libapache2-mod-php5 \
+  # Install Apache for website
+  apache2 apache2-utils libapache2-mod-php5 \
+  # Install mysqldump for cycle.php
+  mysql-client
   ca-certificates --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
