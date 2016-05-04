@@ -2,9 +2,9 @@ FROM debian:jessie
 
 MAINTAINER Dmytro Studynskyi "dimitrystd@gmail.com"
 
-# Install the PHP extensions we need
 RUN apt-get update && apt-get install -y \
   curl libcurl3 \
+  # Install the PHP and extensions
   php5 php5-cli php5-curl php-pear php5-xcache php5-mysql \
   # Install Apache for website
   apache2 apache2-utils libapache2-mod-php5 \
@@ -14,9 +14,7 @@ RUN apt-get update && apt-get install -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Apache
-ENV VIRTUAL_HOST majordomo
-
+# Configure Apache
 RUN rm -f /etc/apache2/sites-available/000-default.conf
 COPY ./files/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
@@ -34,7 +32,7 @@ RUN { \
       echo 'opcache.enable_cli=1'; \
   } > /etc/php5/cli/conf.d/opcache-recommended.ini
 
-# enable logging
+# enable php logging
 RUN { \
       echo 'error_log=/var/log/php/error.log'; \
       echo 'log_errors=true'; \
@@ -89,7 +87,9 @@ RUN chown www-data:www-data -R /var/www \
 COPY ./files/start.sh /start.sh
 RUN chmod +x /start.sh
 
-VOLUME ["/var/www/debmes", "/var/www/backup"]
+ENV VIRTUAL_HOST majordomo
+ENV DB_NAME db_terminal
+VOLUME ["/var/log", "/var/www/debmes", "/var/www/backup"]
 WORKDIR /var/www
 EXPOSE 80
 CMD ["/start.sh"]
