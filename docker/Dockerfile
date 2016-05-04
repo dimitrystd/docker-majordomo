@@ -28,25 +28,11 @@ RUN /configure-php.sh
 ARG MAJORDOMO_SOURCE=https://github.com/dimitrystd/majordomo.git
 
 # Install Majordomo from github
-RUN apt-get update && apt-get install -y git \
-  # Clone git repo
-  && cd /tmp \
-  && echo "Install majordomo from git. URL=$MAJORDOMO_SOURCE" \
-  && git clone $MAJORDOMO_SOURCE \
-  && cp -rfp /tmp/majordomo/* /var/www/ \
-  && cp -rfp /tmp/majordomo/.htaccess /var/www/ \
-  && rm -rf /tmp/majordomo \
-  # Uninstall and purge
-  && apt-get --purge autoremove -y git \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+COPY ./files/install-majordomo.sh /install-majordomo.sh
+RUN /install-majordomo.sh
 COPY ./files/config.php /var/www/config.php
-# Create required folders for running scripts
-RUN mkdir -p /var/www/cached/voice \
-  && mkdir -p /var/www/cached/urls
-RUN chown www-data:www-data -R /var/www \
-  && chmod +x /var/www/*.sh
+
+RUN rm -f /configure-php.sh /install-majordomo.sh
 
 COPY ./files/start.sh /start.sh
 RUN chmod +x /start.sh
