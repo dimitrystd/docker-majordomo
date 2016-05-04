@@ -92,10 +92,10 @@ RUN chmod +x /start.sh
 ENV NEWRELIC_APP_NAME Majordomo
 COPY ./files/newrelic.ini /etc/php5/cli/conf.d/newrelic_majordomo.ini
 RUN ln -s /etc/php5/cli/conf.d/newrelic_majordomo.ini /etc/php5/apache2/conf.d/newrelic_majordomo.ini
-COPY ./files/instal-newrelic.sh /instal-newrelic.sh
+COPY ./files/install-newrelic.sh /install-newrelic.sh
 ARG DEBIAN_FRONTEND=noninteractive
-RUN /instal-newrelic.sh \
-  && rm -f /instal-newrelic.sh
+RUN /install-newrelic.sh \
+  && rm -f /install-newrelic.sh
 # ==========
 
 ENV VIRTUAL_HOST majordomo
