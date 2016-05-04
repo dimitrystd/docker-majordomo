@@ -19,7 +19,6 @@ ENV VIRTUAL_HOST majordomo
 
 RUN rm -f /etc/apache2/sites-available/000-default.conf
 COPY ./files/000-default.conf /etc/apache2/sites-available/000-default.conf
-RUN sed "s/ServerName.*/ServerName ${VIRTUAL_HOST}/g" -i /etc/apache2/sites-available/000-default.conf
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 RUN a2ensite 000-default \
   && a2enmod rewrite
