@@ -21,45 +21,9 @@ RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 RUN a2ensite 000-default \
   && a2enmod rewrite
 
-# set recommended PHP.ini settings
-# see https://secure.php.net/manual/en/opcache.installation.php
-RUN { \
-      echo 'opcache.memory_consumption=128'; \
-      echo 'opcache.interned_strings_buffer=8'; \
-      echo 'opcache.max_accelerated_files=4000'; \
-      echo 'opcache.revalidate_freq=60'; \
-      echo 'opcache.fast_shutdown=1'; \
-      echo 'opcache.enable_cli=1'; \
-  } > /etc/php5/cli/conf.d/opcache-recommended.ini
-
-# enable php logging
-RUN { \
-      echo 'error_log=/var/log/php/error.log'; \
-      echo 'log_errors=true'; \
-      echo 'log_errors_max_len=0'; \
-      echo 'error_reporting=E_ALL & ~E_NOTICE'; \
-      echo 'display_errors=stdout'; \
-      echo 'display_startup_errors=true'; \
-  } > /etc/php5/cli/conf.d/logging.ini
-
-RUN mkdir -p /var/log/php \
-  && touch /var/log/php/error.log \
-  && chown www-data: /var/log/php/error.log \
-  && chmod +rw /var/log/php/error.log
-
-# majordomo recommended settings
-RUN { \
-      echo 'max_execution_time=90'; \
-      echo 'max_input_time=100'; \
-      echo 'post_max_size=200M'; \
-      echo 'upload_max_filesize=50M'; \
-      echo 'max_file_uploads=150'; \
-      echo 'date.timezone=Europe/Kiev'; \
-  } > /etc/php5/cli/conf.d/majordomo.ini
-
-RUN ln -s /etc/php5/cli/conf.d/opcache-recommended.ini /etc/php5/apache2/conf.d/opcache-recommended.ini \
-  && ln -s /etc/php5/cli/conf.d/logging.ini /etc/php5/apache2/conf.d/logging.ini \
-  && ln -s /etc/php5/cli/conf.d/majordomo.ini /etc/php5/apache2/conf.d/majordomo.ini
+# Configure PHP
+COPY ./files/configure-php.sh /configure-php.sh
+RUN /configure-php.sh
 
 ARG MAJORDOMO_SOURCE=https://github.com/dimitrystd/majordomo.git
 
