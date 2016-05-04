@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
   # Install Apache for website
   apache2 apache2-utils libapache2-mod-php5 \
   # Install mysqldump for cycle.php
-  mysql-client
+  mysql-client \
   ca-certificates --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
