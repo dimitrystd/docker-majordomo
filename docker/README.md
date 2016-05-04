@@ -11,6 +11,8 @@ Env variable | Default | Description
 `EMAIL_PASSWORD` | | Email password
 `EXT_ACCESS_USERNAME` | | External authentication user
 `EXT_ACCESS_PASSWORD` | | External authentication password
+`NEWRELIC_APP_NAME` | Majordomo | Application name in [new relic dashboard](https://rpm.newrelic.com)
+`NEWRELIC_KEY` | | New Relic license key which you can find in dashboard
 
 # Usage CLI
 
@@ -27,11 +29,11 @@ docker build --rm --no-cache --tag=dmitriy/majordomo:original --build-arg MAJORD
 ## Run as container
 * Run web site
 ```
-docker run -it --rm -p 80:80 -e VIRTUAL_HOST=<physical_server_domain\ip> -e DB_HOST=<mysql_server_ip> -e DB_NAME=<db_name> -e DB_USER=<db_user> -e DB_PASSWORD=<db_pwd> -e MAIL_USER=xxx@gmail.com -e EMAIL_PASSWORD=<email_pwd> dmitriy/majordomo
+docker run -it --rm -p 80:80 -e VIRTUAL_HOST=<physical_server_domain\ip> -e DB_HOST=<mysql_server_ip> -e DB_NAME=<db_name> -e DB_USER=<db_user> -e DB_PASSWORD=<db_pwd> -e MAIL_USER=xxx@gmail.com -e EMAIL_PASSWORD=<email_pwd> -e NEWRELIC_APP_NAME=Majordomo-web -e NEWRELIC_KEY=<newrelic_key> dmitriy/majordomo
 ```
 * Run cycles
 ```
-docker run -it --rm -e VIRTUAL_HOST=<physical_server_domain\ip> -e DB_HOST=<mysql_server_ip> -e DB_NAME=<db_name> -e DB_USER=<db_user> -e DB_PASSWORD=<db_pwd> -e MAIL_USER=xxx@gmail.com -e EMAIL_PASSWORD=<email_pwd> dmitriy/majordomo
+docker run -it --rm -e VIRTUAL_HOST=<physical_server_domain\ip> -e DB_HOST=<mysql_server_ip> -e DB_NAME=<db_name> -e DB_USER=<db_user> -e DB_PASSWORD=<db_pwd> -e MAIL_USER=xxx@gmail.com -e EMAIL_PASSWORD=<email_pwd> -e NEWRELIC_APP_NAME=Majordomo-bgtasks -e NEWRELIC_KEY=<newrelic_key> dmitriy/majordomo
 ```
 
 You can map folders from container by adding to command line

@@ -87,6 +87,17 @@ RUN chown www-data:www-data -R /var/www \
 COPY ./files/start.sh /start.sh
 RUN chmod +x /start.sh
 
+# Install and configure newrelic agent
+# Remove following lines if you don't want to use newrelic
+ENV NEWRELIC_APP_NAME Majordomo
+COPY ./files/newrelic.ini /etc/php5/cli/conf.d/newrelic_majordomo.ini
+RUN ln -s /etc/php5/cli/conf.d/newrelic_majordomo.ini /etc/php5/apache2/conf.d/newrelic_majordomo.ini
+COPY ./files/instal-newrelic.sh /instal-newrelic.sh
+ARG DEBIAN_FRONTEND=noninteractive
+RUN /instal-newrelic.sh \
+  && rm -f /instal-newrelic.sh
+# ==========
+
 ENV VIRTUAL_HOST majordomo
 ENV DB_NAME db_terminal
 VOLUME ["/var/log", "/var/www/debmes", "/var/www/backup"]
