@@ -34,9 +34,6 @@ COPY ./files/config.php /var/www/config.php
 
 RUN rm -f /configure-php.sh /install-majordomo.sh
 
-COPY ./files/start.sh /start.sh
-RUN chmod +x /start.sh
-
 # Install and configure newrelic agent
 # Remove following lines if you don't want to use newrelic
 ENV NEWRELIC_APP_NAME Majordomo
@@ -48,9 +45,14 @@ RUN /install-newrelic.sh \
   && rm -f /install-newrelic.sh
 # ==========
 
+COPY ./files/start.sh /start.sh
+COPY ./files/entrypoint.sh /entrypoint.sh
+RUN chmod +x /*.sh
+
 ENV VIRTUAL_HOST majordomo
 ENV DB_NAME db_terminal
 VOLUME ["/var/log", "/var/www/debmes", "/var/www/backup"]
 WORKDIR /var/www
 EXPOSE 80
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/start.sh"]
