@@ -25,15 +25,6 @@ RUN a2ensite 000-default \
 COPY ./files/configure-php.sh /configure-php.sh
 RUN /configure-php.sh
 
-ARG MAJORDOMO_SOURCE=https://github.com/dimitrystd/majordomo.git
-
-# Install Majordomo from github
-COPY ./files/install-majordomo.sh /install-majordomo.sh
-RUN /install-majordomo.sh
-COPY ./files/config.php /var/www/config.php
-
-RUN rm -f /configure-php.sh /install-majordomo.sh
-
 # Install and configure newrelic agent
 # Remove following lines if you don't want to use newrelic
 ENV NEWRELIC_APP_NAME Majordomo
@@ -44,6 +35,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN /install-newrelic.sh \
   && rm -f /install-newrelic.sh
 # ==========
+
+# Install Majordomo from github
+ARG MAJORDOMO_SOURCE=https://github.com/dimitrystd/majordomo.git
+COPY ./files/install-majordomo.sh /install-majordomo.sh
+RUN /install-majordomo.sh
+COPY ./files/config.php /var/www/config.php
+
+RUN rm -f /configure-php.sh /install-majordomo.sh
 
 COPY ./files/start.sh /start.sh
 COPY ./files/entrypoint.sh /entrypoint.sh
