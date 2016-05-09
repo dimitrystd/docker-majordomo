@@ -6,12 +6,16 @@ services:
       service: common
     ports:
       - "80:80"
+    environment:
+      NEWRELIC_APP_NAME: Majordomo-web
 
   cycles:
     extends:
       file: common-services.yml
       service: common
     command: php cycle.php
+    environment:
+      NEWRELIC_APP_NAME: Majordomo-bgtasks
 
   # Backup DB to Amazon S3 every day
   mysql_backup:
@@ -26,3 +30,31 @@ services:
       MYSQL_PASSWORD: xxx
       MYSQLDUMP_DATABASE: db_terminal
       SCHEDULE: '@daily'
+
+  # Send majordomo logs to sumologic.com
+  majordomo_logs:
+    image: sumologic/collector:latest-file
+    command: xxxxxxx xxxxxxxxxxxxxxxxxx
+    volumes:
+      - /var/log/majordomo/debmes:/tmp/clogs
+
+  # Send mysql logs to sumologic.com
+  mysql_logs:
+    image: sumologic/collector:latest-file
+    command: xxxxxxx xxxxxxxxxxxxxxxxxx
+    volumes:
+      - /var/log/mysql:/tmp/clogs
+
+  # Backup all files of /etc/majordomo to Amazon S3 every day
+  config_backup:
+    image: outcoldman/backup:latest
+    environment:
+      BACKUP_FIND_OPTIONS: /backup
+      BACKUP_PREFIX: docker-compose
+      BACKUP_AWS_S3_PATH: s3://xxx/backup/configs/
+      BACKUP_AWS_KEY: xxx
+      BACKUP_AWS_SECRET: xxx
+      BACKUP_TIMEZONE: Europe/Kiev
+      BACKUP_CRON_SCHEDULE: '0 2 * * *'
+    volumes:
+      - /etc/majordomo:/backup

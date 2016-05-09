@@ -13,3 +13,4 @@ services:
       DB_PASSWORD: xxx
       MAIL_USER: xxx@gmail.com
       EMAIL_PASSWORD: xxx
+      NEWRELIC_KEY: xxx
