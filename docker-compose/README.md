@@ -1,5 +1,14 @@
 # Usage
-
+* Create folder for compose files
+```
+mkdir -p /etc/majordomo
+```
+* Download [github docker-compose](https://github.com/dimitrystd/docker-majordomo/tree/master/docker-compose) folder into `/etc/majordomo`
+* Add permissions
+```
+sudo chmod 666 /etc/majordomo/*.yml
+sudo chmod 777 /etc/majordomo/*.sh
+```
 * Create two folders. Data from docker container will be saved there
 ```
 mkdir -p /var/log/majordomo/debmes
@@ -32,3 +41,5 @@ majordomo_web_1              /entrypoint.sh /start.sh         Up      0.0.0.0:80
 ```
 
 Also you can use `bash majordomo-start.sh` for simple services start with purging obsolete containers.
+
+Majordomo will be available in browser at `http:<server ip>:80/`. Also don't forget to look at status of your containers at `http:<server ip>:88/`.
