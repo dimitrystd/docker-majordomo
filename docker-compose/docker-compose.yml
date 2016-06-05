@@ -31,6 +31,20 @@ services:
       MYSQLDUMP_DATABASE: db_terminal
       SCHEDULE: '@daily'
 
+  # Backup all files of /etc/majordomo to Amazon S3 every 3 days
+  config_backup:
+    image: outcoldman/backup:latest
+    environment:
+      BACKUP_FIND_OPTIONS: /backup
+      BACKUP_PREFIX: docker-compose
+      BACKUP_AWS_S3_PATH: s3://xxx/backup/configs/
+      BACKUP_AWS_KEY: xxx
+      BACKUP_AWS_SECRET: xxx
+      BACKUP_TIMEZONE: Europe/Kiev
+      BACKUP_CRON_SCHEDULE: '0 2 */3 * *'
+    volumes:
+      - /etc/majordomo:/backup
+
   # Send majordomo logs to sumologic.com
   majordomo_logs:
     image: sumologic/collector:latest-file
@@ -45,16 +59,12 @@ services:
     volumes:
       - /var/log/mysql:/tmp/clogs
 
-  # Backup all files of /etc/majordomo to Amazon S3 every 3 days
-  config_backup:
-    image: outcoldman/backup:latest
-    environment:
-      BACKUP_FIND_OPTIONS: /backup
-      BACKUP_PREFIX: docker-compose
-      BACKUP_AWS_S3_PATH: s3://xxx/backup/configs/
-      BACKUP_AWS_KEY: xxx
-      BACKUP_AWS_SECRET: xxx
-      BACKUP_TIMEZONE: Europe/Kiev
-      BACKUP_CRON_SCHEDULE: '0 2 */3 * *'
+  # UI for managing docker containers
+  # Will be available on port 88
+  dockerui:
+    image: uifd/ui-for-docker
+    ports:
+      - "88:9000"
     volumes:
-      - /etc/majordomo:/backup
+      - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
