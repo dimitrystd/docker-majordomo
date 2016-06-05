@@ -45,7 +45,7 @@ services:
     volumes:
       - /var/log/mysql:/tmp/clogs
 
-  # Backup all files of /etc/majordomo to Amazon S3 every day
+  # Backup all files of /etc/majordomo to Amazon S3 every 3 days
   config_backup:
     image: outcoldman/backup:latest
     environment:
@@ -55,6 +55,6 @@ services:
       BACKUP_AWS_KEY: xxx
       BACKUP_AWS_SECRET: xxx
       BACKUP_TIMEZONE: Europe/Kiev
-      BACKUP_CRON_SCHEDULE: '0 2 * * *'
+      BACKUP_CRON_SCHEDULE: '0 2 */3 * *'
     volumes:
       - /etc/majordomo:/backup
