@@ -24,23 +24,26 @@ Scan all devices
 192.168.0.26
 ```
 Repeat steps below for each IP address:
+
 1. Backup configuration (optional step)
-```
-/opt/megad # php megad-cfg.php --ip 192.168.0.22 --read-conf megad22.cfg -p sec
-Reading configuration... OK
-```
-2. Update firmware
-```
-/opt/megad # php megad-cfg.php --ip 192.168.0.22 -p sec -w --ee --read-conf megad.cfg --write-conf megad.cfg
-Reading configuration... OK
-Downloading firmware... OK
-Connecting... OK
-Checking firmware... OK
-Erasing firmware... OK
-Writing firmware... OK
-Erasing EEPROM... OK
-Restarting device... OK
-Waiting...OK
-IP address was successfully changed!
-Writing configuration... OK
-```
+
+	```
+	/opt/megad # php megad-cfg.php --ip 192.168.0.22 --read-conf megad22.cfg -p sec
+	Reading configuration... OK
+	```
+1. Update firmware
+
+	```
+	/opt/megad # php megad-cfg.php --ip 192.168.0.22 -p sec -w --ee --read-conf megad.cfg --write-conf megad.cfg
+	Reading configuration... OK
+	Downloading firmware... OK
+	Connecting... OK
+	Checking firmware... OK
+	Erasing firmware... OK
+	Writing firmware... OK
+	Erasing EEPROM... OK
+	Restarting device... OK
+	Waiting...OK
+	IP address was successfully changed!
+	Writing configuration... OK
+	```
