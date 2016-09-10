@@ -22,7 +22,7 @@ docker-compose up -d
 ```
 * Now you can check how website and cycles work
 ```
-tail -f /var/majordomo/debmes/*
+tail -f /var/log/majordomo/debmes/*
 ```
 Also you can look at list of services
 ```
@@ -40,6 +40,6 @@ majordomo_mysql_logs_1       /bin/bash run.sh xxxxxxx ...     Up
 majordomo_web_1              /entrypoint.sh /start.sh         Up      0.0.0.0:80->80/tcp
 ```
 
-Also you can use `bash majordomo-start.sh` for simple services start with purging obsolete containers.
+Also you can use `bash /etc/majordomo/majordomo-start.sh` for simple services start with purging obsolete containers.
 
 Majordomo will be available in browser at `http:<server ip>:80/`. Also don't forget to look at status of your containers at `http:<server ip>:88/`.
